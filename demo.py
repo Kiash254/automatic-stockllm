@@ -80,6 +80,6 @@ if submit:
         st.write(row)
 
     # Send SMS to the manager
-    message = f"Dear {manager_name}, your stock status has been updated. Please check your inventory."
+    message = f"Dear {manager_name},.Below is what is Avaible in the Stock."
     sms_response = sms.send(message, [manager_phone_number])
     st.write(f"SMS sent to {manager_name} at {manager_phone_number}")

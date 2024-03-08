@@ -56,8 +56,8 @@ prompt = [
 ]
 
 # Setting up the Streamlit app
-st.set_page_config(page_title="Stock Information Reterival using Generative AI")
-st.header("Stock Information Reterival using Generative AI")
+st.set_page_config(page_title="Supermarket Stock Information")
+st.header("Supermarket Stock Information")
 
 # User input for the question
 question = st.text_input("Enter your question", key='input')
