@@ -13,7 +13,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv("Google_api_key"))
 
 # Configure the API key and username for Africastalking
-AT_API = "3f4ffc1efa1b9b7cc63298e8d1b96e50b5bcbce4af151294ad13bf94d472eeeb"
+AT_API = "0fd2f09f57ba6a4b55cc7551918ac6f324658988500c39ee4f5e7be619671a82"
 AT_USERNAME = "stockllm"
 
 # Initialize Africastalking
@@ -28,6 +28,8 @@ def get_gemini_response(question, prompt):
     # Remove Markdown syntax from the SQL query
     sql_query = response.text.replace("```sql", "").replace("```", "")
     return sql_query
+
+
 
 # Function to retrieve data from the database using the SQL query
 def read_sql_query(sql, db):
@@ -54,8 +56,8 @@ prompt = [
 ]
 
 # Setting up the Streamlit app
-st.set_page_config(page_title="Supermarket Stock Information")
-st.header("Supermarket Stock Information")
+st.set_page_config(page_title="Stock Information Reterival using Generative AI")
+st.header("Stock Information Reterival using Generative AI")
 
 # User input for the question
 question = st.text_input("Enter your question", key='input')
@@ -74,12 +76,22 @@ if submit:
     response = get_gemini_response(question, prompt)
     # Retrieve the data from the database using the SQL query
     rows = read_sql_query(response, "supermarket.db")
+    # Get the total number of items in the database
+    total_items = len(rows)
+    # Calculate the stock status based on the total number of items
+    stock_status = "Increase stock" if total_items < 100 else "Stock is sufficient"
+    
     # Display the response
     st.subheader("Response:")
     for row in rows:
         st.write(row)
-
+        
+    
+  
+    # print(type(row))
     # Send SMS to the manager
-    message = f"Dear {manager_name}, your stock status has been updated. Please check your inventory."
+    message = f"Dear {manager_name}, your stock status has been updated. {stock_status}. Total items in database: {total_items}. Please check your inventory.\n\nResponse: {rows}"
     sms_response = sms.send(message, [manager_phone_number])
+    
     st.write(f"SMS sent to {manager_name} at {manager_phone_number}")
+

@@ -13,7 +13,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv("Google_api_key"))
 
 # Configure the API key and username for Africastalking
-AT_API = "f69b3b08e0f685a438205869737527f30151bb18e22dd12ef73ee12b9e8852fe"
+AT_API = "3f4ffc1efa1b9b7cc63298e8d1b96e50b5bcbce4af151294ad13bf94d472eeeb"
 AT_USERNAME = "stockllm"
 
 # Initialize Africastalking
@@ -60,6 +60,12 @@ st.header("Supermarket Stock Information")
 # User input for the question
 question = st.text_input("Enter your question", key='input')
 
+# User input for the manager's name
+manager_name = st.text_input("Enter manager's name")
+
+# User input for the manager's phone number
+manager_phone_number = st.text_input("Enter manager's phone number")
+
 # Button to submit the question
 submit = st.button("Ask Question")
 
@@ -72,3 +78,8 @@ if submit:
     st.subheader("Response:")
     for row in rows:
         st.write(row)
+
+    # Send SMS to the manager
+    message = f"Dear {manager_name}, your stock status has been updated. Please check your inventory."
+    sms_response = sms.send(message, [manager_phone_number])
+    st.write(f"SMS sent to {manager_name} at {manager_phone_number}")
