@@ -56,8 +56,8 @@ prompt = [
 ]
 
 # Setting up the Streamlit app
-st.set_page_config(page_title="Supermarket Stock Information")
-st.header("Supermarket Stock Information")
+st.set_page_config(page_title=" Mini Supermarket    Stock Retriver")
+st.header("Mini Supermarket    Stock Retriver")
 
 # User input for the question
 question = st.text_input("Enter your question", key='input')
