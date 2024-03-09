@@ -13,8 +13,8 @@ load_dotenv()
 genai.configure(api_key=os.getenv("Google_api_key"))
 
 # Configure the API key and username for Africastalking
-AT_API = "0fd2f09f57ba6a4b55cc7551918ac6f324658988500c39ee4f5e7be619671a82"
-AT_USERNAME = "stockllm"
+AT_API.configure(AT_API=os.getenv("AT_API"))
+AT_USERNAME.configure(AT_USERNAME=os.getenv("AT_USERNAME"))
 
 # Initialize Africastalking
 africastalking.initialize(AT_USERNAME, AT_API)
@@ -56,8 +56,8 @@ prompt = [
 ]
 
 # Setting up the Streamlit app
-st.set_page_config(page_title=" Mini Supermarket    Stock Retriver")
-st.header("Mini Supermarket    Stock Retriver")
+st.set_page_config(page_title=" Mini Supermarket    Stock Retriver Using AI")
+st.header("Mini Supermarket    Stock Retriver Using AI")
 
 # User input for the question
 question = st.text_input("Enter your question", key='input')
@@ -79,7 +79,7 @@ if submit:
     # Get the total number of items in the database
     total_items = len(rows)
     # Calculate the stock status based on the total number of items
-    stock_status = "Increase stock" if total_items < 100 else "Stock is sufficient"
+    stock_status = "Increase stock" if total_items < 10 else "Stock is sufficient"
     
     # Display the response
     st.subheader("Response:")
