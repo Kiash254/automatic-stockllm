@@ -90,39 +90,36 @@ if submit:
 
     with col2:
         # Allow the user to select columns for plotting
-        x_axis = st.selectbox('Select the X-axis', options=columns+["None"])
-        y_axis = st.selectbox('Select the Y-axis', options=columns+["None"])
+        selected_columns = st.multiselect('Select the columns to visualize', options=columns)
 
         plot_list = ['Line Plot', 'Bar Chart', 'Scatter Plot', 'Distribution Plot', 'Count Plot']
         # Allow the user to select the type of plot
         plot_type = st.selectbox('Select the type of plot', options=plot_list)
 
     # Generate the plot based on user selection
-    if st.button('Generate Plot'):
+    if st.button('Generate Plot') and selected_columns:
 
         fig, ax = plt.subplots(figsize=(6, 4))
 
         if plot_type == 'Line Plot':
-            sns.lineplot(x=df[x_axis], y=df[y_axis], ax=ax)
+            df[selected_columns].plot(kind='line', ax=ax)
         elif plot_type == 'Bar Chart':
-            sns.barplot(x=df[x_axis], y=df[y_axis], ax=ax)
+            df[selected_columns].plot(kind='bar', ax=ax)
         elif plot_type == 'Scatter Plot':
-            sns.scatterplot(x=df[x_axis], y=df[y_axis], ax=ax)
+            df[selected_columns].plot(kind='scatter', x=selected_columns[0], y=selected_columns[1], ax=ax)
         elif plot_type == 'Distribution Plot':
-            sns.histplot(df[x_axis], kde=True, ax=ax)
-            y_axis='Density'
+            df[selected_columns].plot(kind='hist', ax=ax)
         elif plot_type == 'Count Plot':
-            sns.countplot(x=df[x_axis], ax=ax)
-            y_axis = 'Count'
+            df[selected_columns].value_counts().plot(kind='bar', ax=ax)
 
         # Adjust label sizes
         ax.tick_params(axis='x', labelsize=10)  # Adjust x-axis label size
         ax.tick_params(axis='y', labelsize=10)  # Adjust y-axis label size
 
         # Adjust title and axis labels with a smaller font size
-        plt.title(f'{plot_type} of {y_axis} vs {x_axis}', fontsize=12)
-        plt.xlabel(x_axis, fontsize=10)
-        plt.ylabel(y_axis, fontsize=10)
+        plt.title(f'{plot_type} of {", ".join(selected_columns)}', fontsize=12)
+        plt.xlabel(", ".join(selected_columns), fontsize=10)
+        plt.ylabel('Count', fontsize=10)
 
         # Show the results
         st.pyplot(fig) 
