@@ -13,8 +13,8 @@ load_dotenv()
 genai.configure(api_key=os.getenv("Google_api_key"))
 
 # Configure the API key and username for Africastalking
-AT_API.configure(AT_API=os.getenv("AT_API"))
-AT_USERNAME.configure(AT_USERNAME=os.getenv("AT_USERNAME"))
+AT_API=os.getenv("AT_API")
+AT_USERNAME=os.getenv("AT_USERNAME")
 
 # Initialize Africastalking
 africastalking.initialize(AT_USERNAME, AT_API)
